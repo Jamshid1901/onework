@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onework/controller/auth_controller.dart';
+import 'package:onework/view/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -43,7 +44,10 @@ class _ConfimationPageState extends State<ConfirmationPage> {
           ElevatedButton(
               onPressed: () {
                 context.read<AuthController>().verifyEmail(
-                    code: controller.text, email: widget.email, onSuccess: () {});
+                    code: controller.text, email: widget.email, onSuccess: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const ProfilePage()), (route) => false);
+                });
               },
               child: const Text("Send"))
         ],

@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:onework/controller/auth_controller.dart';
-import 'package:onework/view/pages/login_page.dart';
 import 'package:onework/view/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 
-import 'confirm_page.dart';
-
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController password = TextEditingController();
-  final TextEditingController confirmPassword = TextEditingController();
   late TextEditingController email;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -71,44 +67,19 @@ class _SignUpState extends State<SignUp> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: confirmPassword,
-                decoration:
-                    const InputDecoration(labelText: "Password Confirmation"),
-                validator: (s) {
-                  if (s?.isEmpty ?? true) {
-                    return "Password Confirmation toliqmas";
-                  } else if (password.text != s) {
-                    return "Password Confirmation bir xil emas";
-                  }
-                  return null;
-                },
-              ),
-              context.watch<AuthController>().wrongPassword != null
-                  ? Text(context.watch<AuthController>().wrongPassword ?? "")
-                  : const SizedBox.shrink(),
               ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      context.read<AuthController>().signUp(
+                      context.read<AuthController>().login(
                           email: email.text,
                           password: password.text,
-                          confirmPassword: confirmPassword.text,
                           onSuccess: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => ConfirmationPage(
-                                      email: email.text,
-                                    )));
+                                builder: (_) => const ProfilePage()));
                           });
                     }
                   },
-                  child: const Text("Sign Up")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const LoginPage()));
-                  },
-                  child: const Text("Login"))
+                  child: const Text("Sign Up"))
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onework/view/pages/profile_page.dart';
 import 'package:onework/view/pages/register_page.dart';
 
 import '../../domen/service/local_store.dart';
@@ -18,7 +19,8 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   checkToken() async {
-    if (await LocalStore.getAccessToken() == null) {
+    if (await LocalStore.getAccessToken() == null ||
+        await LocalStore.getAccessToken() == "") {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const SignUp()), (route) => false);
@@ -28,7 +30,10 @@ class _SplashPageState extends State<SplashPage> {
       //   // go sign up
       // }
     } else {
-      // go Home
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const ProfilePage()),
+          (route) => false);
     }
   }
 
