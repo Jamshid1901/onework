@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onework/domen/repository/auth_repo.dart';
+import 'package:onework/view/pages/splash_page.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/auth_controller.dart';
