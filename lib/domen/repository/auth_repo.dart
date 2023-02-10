@@ -102,20 +102,4 @@ class AuthRepo implements AuthFacade {
     }
   }
 
-  @override
-  Future getApplication() async {
-    try {
-      final token = await LocalStore.getAccessToken();
-      var res = await dio.client(token: token).get(
-        "/applications",
-        queryParameters: {
-          'id': 0
-        }
-      );
-      return ProfileModel.fromJson(res.data);
-    } catch (e) {
-      debugPrint("Get Profile Error : $e");
-      return null;
-    }
-  }
 }

@@ -16,5 +16,4 @@ abstract class AuthFacade {
 
   Future<ProfileModel?> getUser();
 
-  Future getApplication();
 }
