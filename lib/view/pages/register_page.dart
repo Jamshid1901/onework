@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:onework/controller/auth_controller.dart';
 import 'package:onework/view/pages/login_page.dart';
-import 'package:onework/view/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 
 import 'confirm_page.dart';
@@ -36,7 +36,20 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign Up"),
+        title: Text("edit_profile".tr()),
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.setLocale(Locale('en', 'US'));
+
+              },
+              icon: const Text("En")),
+          IconButton(
+              onPressed: () {
+                context.setLocale(Locale('de', 'DE'));
+              },
+              icon: const Text("De"))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -102,11 +115,11 @@ class _SignUpState extends State<SignUp> {
                           });
                     }
                   },
-                  child: const Text("Sign Up")),
+                  child: Text("sign_up".tr())),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const LoginPage()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const LoginPage()));
                   },
                   child: const Text("Login"))
             ],

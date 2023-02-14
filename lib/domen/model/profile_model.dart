@@ -9,7 +9,7 @@ class ProfileModel {
   bool? invisibleAge;
   String? city;
   String? country;
-  num? phoneNumber;
+  String? phoneNumber;
   String? profession;
   String? role;
   String? imageUrl;

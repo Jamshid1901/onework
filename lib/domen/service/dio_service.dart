@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
-
 class DioService {
+
+
   Dio client({String? token}) {
     return Dio(BaseOptions(
-      baseUrl: "https://onework.uz",
+      baseUrl: "https://api.foodyman.org",
       headers: {
         if (token != null) "Authorization": "Bearer $token",
       },
@@ -12,9 +13,6 @@ class DioService {
           responseBody: true,
           requestBody: true,
           requestHeader: true,
-          responseHeader: false))
-      ..interceptors.add(InterceptorsWrapper(onError: (error, event) async {
-        if (error.response?.statusCode == 401) {}
-      }));
+          responseHeader: false));
   }
 }

@@ -1,11 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:onework/domen/repository/auth_repo.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:onework/view/pages/file_upload.dart';
 import 'package:onework/view/pages/splash_page.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/auth_controller.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('en', 'US'), Locale('de', 'DE')],
+      fallbackLocale: Locale('de', 'DE'),
+      startLocale: Locale('de', 'DE'),
+      path: 'assets/tr',
+      child: const MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,15 +27,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (_) => AuthController()),
+        ChangeNotifierProvider(create: (_) => AuthController()),
       ],
       child: MaterialApp(
+          locale: context.locale,
+          supportedLocales: context.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
           title: 'One Work',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const SplashPage()),
+          home: const FileUpload()),
     );
   }
 }

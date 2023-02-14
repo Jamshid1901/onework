@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:onework/view/pages/profile_page.dart';
 import 'package:onework/view/pages/register_page.dart';
 
@@ -29,12 +30,14 @@ class _SplashPageState extends State<SplashPage> {
       // } else {
       //   // go sign up
       // }
+      FlutterNativeSplash.remove();
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const ProfilePage()),
           (route) => false);
     }
+    FlutterNativeSplash.remove();
   }
 
   @override

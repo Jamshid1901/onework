@@ -11,4 +11,5 @@ class TokenModel {
     return TokenModel(
         token: data["access_token"], refreshToken: data["refresh_token"]);
   }
+
 }
