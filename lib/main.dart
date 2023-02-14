@@ -6,6 +6,7 @@ import 'package:onework/view/pages/splash_page.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/auth_controller.dart';
+import 'view/pages/view_map.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const FileUpload()),
+          home: const ViewMap()),
     );
   }
 }
