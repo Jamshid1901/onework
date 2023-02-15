@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:onework/domen/interface/auth_facade.dart';
 import 'package:onework/domen/model/edit_model.dart';
 import 'package:onework/domen/model/profile_model.dart';
+import 'package:onework/domen/model/rout_model.dart';
 import 'package:onework/domen/model/token_model.dart';
 import 'package:onework/domen/service/dio_service.dart';
 import 'package:onework/domen/service/local_store.dart';
@@ -53,8 +55,8 @@ class AuthRepo implements AuthFacade {
     try {
       final token = await LocalStore.getAccessToken();
       await dio.client(token: token).post(
-            "/auth/logout",
-          );
+        "/auth/logout",
+      );
       return null;
     } catch (e) {
       debugPrint(":Log out Error : $e");
@@ -82,8 +84,8 @@ class AuthRepo implements AuthFacade {
     try {
       final token = await LocalStore.getAccessToken();
       var res = await dio.client(token: token).get(
-            "/api/profile",
-          );
+        "/api/profile",
+      );
       return ProfileModel.fromJson(res.data);
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
@@ -118,7 +120,7 @@ class AuthRepo implements AuthFacade {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const SignUp()),
-            (route) => false);
+                (route) => false);
       }
       debugPrint("Get Profile Error : $e");
       return null;
@@ -146,13 +148,13 @@ class AuthRepo implements AuthFacade {
   }
 
   @override
-  Future<ApplicationModel?> getApplication(
-      BuildContext context, int userId) async {
+  Future<ApplicationModel?> getApplication(BuildContext context,
+      int userId) async {
     try {
       final token = await LocalStore.getAccessToken();
       var res = await dio.client(token: token).get(
-            "/applicants/4",
-          );
+        "/applicants/4",
+      );
       return ApplicationModel.fromJson(res.data);
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
@@ -181,6 +183,25 @@ class AuthRepo implements AuthFacade {
       return res.data["data"]["title"];
     } on DioError catch (e) {
       print("error : $e");
+    }
+    return null;
+  }
+
+  @override
+  Future<DrawRouting?> getRout({required BuildContext context,
+    required LatLng start,
+    required LatLng end}) async {
+    try {
+      final qData = {
+        "api_key": "5b3ce3597851110001cf62480384c1db92764d1b8959761ea2510ac8",
+        "start": "${start.longitude},${start.latitude}",
+        "end": "${end.longitude},${end.latitude}"
+      };
+      var res = await dio.client(isRouting: true).get(
+          "/v2/directions/driving-car", queryParameters: qData);
+      return DrawRouting.fromJson(res.data);
+    } on DioError catch (e) {
+      print(e);
     }
     return null;
   }

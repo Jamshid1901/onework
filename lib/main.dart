@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:onework/view/pages/file_upload.dart';
 import 'package:onework/view/pages/splash_page.dart';
+import 'package:onework/view/pages/yandex_map_page.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/auth_controller.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const ViewMap()),
+          home: const YandexMapPage()),
     );
   }
 }

@@ -44,6 +44,10 @@ dependencies:
   image_picker: ^0.8.6+1
   file_picker: ^5.2.5
   google_maps_flutter: ^2.2.3
+  path_provider: ^2.0.11
+  geolocator: ^9.0.2
+  osm_nominatim: ^2.0.1
+  yandex_mapkit: ^3.2.0
 
 dev_dependencies:
   flutter_test:
