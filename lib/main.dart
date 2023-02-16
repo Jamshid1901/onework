@@ -10,7 +10,7 @@ import 'controller/auth_controller.dart';
 import 'view/pages/view_map.dart';
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+   WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
