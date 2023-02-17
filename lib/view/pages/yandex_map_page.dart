@@ -12,9 +12,14 @@ class YandexMapPage extends StatefulWidget {
 
 class _YandexMapPageState extends State<YandexMapPage> {
   late YandexMapController yandexMapController;
+  List<MapObject> listOfMarker = [];
 
   @override
   Widget build(BuildContext context) {
+    print("object : ${listOfMarker.length}");
+    listOfMarker.forEach((element) {
+      print("object1: ${element.mapId}");
+    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -30,7 +35,8 @@ class _YandexMapPageState extends State<YandexMapPage> {
                     scale: 0.5,
                   ),
                 ),
-              )
+              ),
+              ...listOfMarker
             ],
             onMapCreated: (YandexMapController controller) {
               yandexMapController = controller;
@@ -89,9 +95,42 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                     return GestureDetector(
                                       onTap: () async {
                                         FocusScope.of(context).unfocus();
+                                        listOfMarker.add(PlacemarkMapObject(
+                                          mapId: const MapObjectId("start"),
+                                          point: const Point(
+                                              latitude: 41.285416,
+                                              longitude: 69.204007),
+                                          icon: PlacemarkIcon.single(
+                                            PlacemarkIconStyle(
+                                              image: BitmapDescriptor
+                                                  .fromAssetImage(
+                                                      "assets/map.webp"),
+                                              scale: 0.4,
+                                            ),
+                                          ),
+                                          opacity: 1,
+                                        ));
+                                        listOfMarker.add(PlacemarkMapObject(
+                                          mapId: const MapObjectId("end"),
+                                          point: value.data?.items?[index]
+                                                  .geometry.first.point ??
+                                              Point(
+                                                  latitude: 42.285416,
+                                                  longitude: 69.204007),
+                                          icon: PlacemarkIcon.single(
+                                            PlacemarkIconStyle(
+                                              image: BitmapDescriptor
+                                                  .fromAssetImage(
+                                                      "assets/map.webp"),
+                                              scale: 0.4,
+                                            ),
+                                          ),
+                                          opacity: 1,
+                                        ));
                                         context
                                             .read<AuthController>()
                                             .search("");
+                                        yandexMapController.notifyListeners();
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
