@@ -48,6 +48,8 @@ dependencies:
   geolocator: ^9.0.2
   osm_nominatim: ^2.0.1
   yandex_mapkit: ^3.2.0
+  flutter_file_downloader: ^1.1.0+1
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

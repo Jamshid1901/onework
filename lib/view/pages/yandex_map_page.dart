@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:onework/controller/auth_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -145,7 +147,7 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                                           title: Column(
                                                             children: [
                                                               Text(
-                                                                  "Distance : ${double.parse(element.metadata.weight.distance.text.substring(0, element.metadata.weight.distance.text.indexOf("mi")-1)) * 1.6} km"),
+                                                                  "Distance : ${double.parse(element.metadata.weight.distance.text.substring(0, element.metadata.weight.distance.text.indexOf("mi") - 1)) * 1.6} km"),
                                                               Text(
                                                                   "Distance : ${(element.metadata.weight.distance.text)} "),
                                                             ],
@@ -186,6 +188,25 @@ class _YandexMapPageState extends State<YandexMapPage> {
             ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Text("Download"),
+        onPressed: () async {
+        var res =  await Permission.storage.request();
+          print(": ${res.name}");
+          // FileDownloader.downloadFile(
+          //     url:
+          //         "https://www.tutorialspoint.com/flutter/flutter_tutorial.pdf",
+          //     onProgress: (fileName, progress) {
+          //       print('FILE fileName HAS PROGRESS $progress');
+          //     },
+          //     onDownloadCompleted: (String path) {
+          //       print('FILE DOWNLOADED TO PATH: $path');
+          //     },
+          //     onDownloadError: (String error) {
+          //       print('DOWNLOAD ERROR: $error');
+          //     });
+        },
       ),
     );
   }
