@@ -131,11 +131,11 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                                   RequestPointType.wayPoint)
                                         ], drivingOptions: DrivingOptions())
                                             .result;
-                                        res.routes?.forEach((element) {
+                                        res.routes?.asMap().forEach((index,element) {
                                           listOfMarker.add(
                                             PolylineMapObject(
                                                 mapId: MapObjectId(
-                                                    "${element.geometry.length}"),
+                                                    "id$index"),
                                                 polyline: Polyline(
                                                     points: element.geometry),
                                                 strokeColor: Colors.primaries[
