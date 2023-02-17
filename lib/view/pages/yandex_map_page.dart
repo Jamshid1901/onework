@@ -72,7 +72,7 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                 searchType: SearchType.none,
                                 geometry: true,
                               )).result,
-                          builder: (context, value) {
+                          builder: (contextt, value) {
                             if (value.hasData) {
                               return ListView.builder(
                                   shrinkWrap: true,
@@ -81,6 +81,7 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                     return GestureDetector(
                                       onTap: () async {
                                         FocusScope.of(context).unfocus();
+                                        listOfMarker.clear();
                                         listOfMarker.add(PlacemarkMapObject(
                                           mapId: const MapObjectId("start"),
                                           point: const Point(
@@ -131,11 +132,28 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                                   RequestPointType.wayPoint)
                                         ], drivingOptions: DrivingOptions())
                                             .result;
-                                        res.routes?.asMap().forEach((index,element) {
+                                        res.routes
+                                            ?.asMap()
+                                            .forEach((index, element) {
                                           listOfMarker.add(
                                             PolylineMapObject(
-                                                mapId: MapObjectId(
-                                                    "id$index"),
+                                                onTap: (s, i) {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Column(
+                                                            children: [
+                                                              Text(
+                                                                  "Distance : ${double.parse(element.metadata.weight.distance.text.substring(0, element.metadata.weight.distance.text.indexOf("mi")-1)) * 1.6} km"),
+                                                              Text(
+                                                                  "Distance : ${(element.metadata.weight.distance.text)} "),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                                mapId: MapObjectId("id$index"),
                                                 polyline: Polyline(
                                                     points: element.geometry),
                                                 strokeColor: Colors.primaries[
