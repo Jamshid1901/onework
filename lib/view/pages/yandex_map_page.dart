@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:onework/controller/auth_controller.dart';
 import 'package:provider/provider.dart';
@@ -16,28 +18,12 @@ class _YandexMapPageState extends State<YandexMapPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("object : ${listOfMarker.length}");
-    listOfMarker.forEach((element) {
-      print("object1: ${element.mapId}");
-    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           YandexMap(
-            mapObjects: [
-              PlacemarkMapObject(
-                mapId: const MapObjectId("1"),
-                point: const Point(latitude: 41.285416, longitude: 69.204007),
-                icon: PlacemarkIcon.single(
-                  PlacemarkIconStyle(
-                    image: BitmapDescriptor.fromAssetImage("assets/map.webp"),
-                    scale: 0.5,
-                  ),
-                ),
-              ),
-              ...listOfMarker
-            ],
+            mapObjects: [...listOfMarker],
             onMapCreated: (YandexMapController controller) {
               yandexMapController = controller;
               yandexMapController.moveCamera(
@@ -114,7 +100,7 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                           mapId: const MapObjectId("end"),
                                           point: value.data?.items?[index]
                                                   .geometry.first.point ??
-                                              Point(
+                                              const Point(
                                                   latitude: 42.285416,
                                                   longitude: 69.204007),
                                           icon: PlacemarkIcon.single(
@@ -127,10 +113,41 @@ class _YandexMapPageState extends State<YandexMapPage> {
                                           ),
                                           opacity: 1,
                                         ));
+                                        var res = await YandexDriving
+                                                .requestRoutes(points: [
+                                          const RequestPoint(
+                                              point: Point(
+                                                  latitude: 41.285416,
+                                                  longitude: 69.204007),
+                                              requestPointType:
+                                                  RequestPointType.wayPoint),
+                                          RequestPoint(
+                                              point: value.data?.items?[index]
+                                                      .geometry.first.point ??
+                                                  const Point(
+                                                      latitude: 42.285416,
+                                                      longitude: 69.204007),
+                                              requestPointType:
+                                                  RequestPointType.wayPoint)
+                                        ], drivingOptions: DrivingOptions())
+                                            .result;
+                                        res.routes?.forEach((element) {
+                                          listOfMarker.add(
+                                            PolylineMapObject(
+                                                mapId: MapObjectId(
+                                                    "${element.geometry.length}"),
+                                                polyline: Polyline(
+                                                    points: element.geometry),
+                                                strokeColor: Colors.primaries[
+                                                    Random().nextInt(Colors
+                                                        .primaries.length)],
+                                                outlineColor: Colors.teal),
+                                          );
+                                        });
+                                        // ignore: use_build_context_synchronously
                                         context
                                             .read<AuthController>()
                                             .search("");
-                                        yandexMapController.notifyListeners();
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
